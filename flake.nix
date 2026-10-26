@@ -1,6 +1,8 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs = {
+      url = "github:NixOS/nixpkgs/nixos-unstable";
+    };
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL/main";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,17 +19,27 @@
       modules = [
         nixos-wsl.nixosModules.default
         home-manager.nixosModules.home-manager
-        {
+        ({ pkgs, ... }: {
+          nixpkgs.config.allowUnfree = true;
           system.stateVersion = "26.05";
-          wsl.enable = true;
-          wsl.defaultUser = "asti0s";
+          users.users.asti0s.shell = pkgs.zsh;
+
+          wsl = {
+            enable = true;
+            defaultUser = "asti0s";
+          };
+
+          programs = {
+            zsh.enable = true;
+            nix-ld.enable = true;
+          };
 
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
             users.asti0s = import ./home.nix;
           };
-        }
+        })
       ];
     };
   };

@@ -5,15 +5,29 @@
     stateVersion = "26.05";
 
     packages = with pkgs; [
-      git
       proton-pass-cli
       zsh-powerlevel10k
       meslo-lgs-nf
+      pi-coding-agent
+      nodejs
+      wget
+      tree
+      gh
     ];
 
-    file.".p10k.zsh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixosConfig/p10k.zsh";
+    file.".p10k.zsh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixosConfig/config/p10k.zsh";
+    file.".pi/agent/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixosConfig/config/pi/settings.json";
+    file.".pi/agent/AGENTS.md".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixosConfig/config/pi/AGENTS.md";
 
     sessionVariables.SSH_AUTH_SOCK = "$HOME/.ssh/proton-pass-agent.sock";
+  };
+
+  programs.git = {
+    enable = true;
+    settings.user = {
+      name  = "Asti0s";
+      email = "contact@astios.dev";
+    };
   };
 
   programs.zsh = {
@@ -25,14 +39,12 @@
 
     shellAliases = {
       ll = "ls -l";
-      nixos-update = "sudo nixos-rebuild switch --flake /etc/nixos#imm_wsl";
     };
 
     # history options: https://github.com/nix-community/home-manager/blob/master/modules/programs/zsh/history.nix
     history = {
       append = true;
       path = "$HOME/.zsh_history";
-      ignoreDups = true;
       ignoreAllDups = true;
       findNoDups = true;
       ignoreSpace = true;
@@ -50,14 +62,6 @@
         PROMPT='%n@%m %~ %# '
       fi
     '';
-
-
-    antidote = {
-      enable = true;
-      plugins = [
-        "romkatv/powerlevel10k"
-      ];
-    };
   };
 
   systemd.user.services.proton-pass-ssh-agent = {

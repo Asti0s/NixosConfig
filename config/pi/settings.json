@@ -1,0 +1,53 @@
+{
+  "lastChangelogVersion": "1.4.0",
+  "theme": "titanium",
+  "piOmpTheme": {
+    "startup": {
+      "showResources": true,
+      "alwaysExpanded": true
+    }
+  },
+  "outputPad": 0,
+  "enableInstallTelemetry": false,
+  "enableAnalytics": false,
+  "defaultProvider": "openrouter",
+  "defaultModel": "z-ai/glm-5.3-flash",
+  "defaultThinkingLevel": "medium",
+  "hideThinkingBlock": true,
+  "showCacheMissNotices": true,
+  "defaultProjectTrust": "always",
+  "defaultTools": [
+    "+tool_search"
+  ],
+  "observational-memory": {
+    "observeAfterTokens": 10000,
+    "reflectAfterTokens": 15000,
+    "compactAfterTokens": 100000,
+    "compactAfterTokensMode": "calibrated",
+    "observationsPoolMaxTokens": 15000,
+    "observationsPoolTargetTokens": 10000,
+    "agentMaxTurns": 16,
+    "model": {
+      "provider": "openrouter",
+      "id": "inclusionai/ling-3.0-flash",
+      "thinking": "low"
+    },
+    "showWorkerNotifications": true,
+    "passive": false,
+    "debugLog": false
+  },
+  "packages": [
+    "npm:pi-web-access",
+    "npm:@juicesharp/rpiv-todo",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@nguyenquangthai/pi-omp-theme",
+    "npm:pi-observational-memory",
+    "git:github.com/Asti0s/pi-interactive-subagents.git"
+  ],
+  "extensions": [
+    "-builtin:codemode",
+    "+builtin:tool-search",
+    "-builtin:llama.cpp",
+    "-builtin:mcp"
+  ]
+}
