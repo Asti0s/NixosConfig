@@ -19,6 +19,7 @@
       gh
       nixfmt
       bat
+      openssl
     ];
 
     file.".p10k.zsh".source =
