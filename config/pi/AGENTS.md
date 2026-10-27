@@ -17,4 +17,3 @@
 - Verify non-obvious external claims (versions, APIs, benchmarks) with `researcher` before acting on them.
 - If a subagent's work is wrong or incomplete, resume it with `subagent_message` and a precise correction; respawn from scratch only if resuming cannot fix it.
 - If a subagent asks via `ask_question`, answer with `subagent_message` — the reply arrives as its next turn.
-

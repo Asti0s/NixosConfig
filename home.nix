@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 {
   home = {
@@ -13,19 +18,35 @@
       wget
       tree
       gh
+      nixfmt
     ];
 
-    file.".p10k.zsh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixosConfig/config/p10k.zsh";
-    file.".pi/agent/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixosConfig/config/pi/settings.json";
-    file.".pi/agent/AGENTS.md".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixosConfig/config/pi/AGENTS.md";
+    file.".p10k.zsh".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixosConfig/config/p10k.zsh";
+    file.".pi/agent/settings.json".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixosConfig/config/pi/settings.json";
+    file.".pi/agent/AGENTS.md".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixosConfig/config/pi/AGENTS.md";
 
     sessionVariables.SSH_AUTH_SOCK = "$HOME/.ssh/proton-pass-agent.sock";
+  };
+
+  programs.tmux = {
+    enable = true;
+    terminal = "tmux-256color";
+    extraConfig = ''
+      set -ga terminal-overrides ",*:Tc"
+
+      # https://pi.dev/docs/latest/tmux
+      set -g extended-keys on
+      set -g extended-keys-format csi-u
+    '';
   };
 
   programs.git = {
     enable = true;
     settings.user = {
-      name  = "Asti0s";
+      name = "Asti0s";
       email = "contact@astios.dev";
     };
   };
@@ -60,6 +81,11 @@
         [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
       else
         PROMPT='%n@%m %~ %# '
+      fi
+
+      # Load tmux
+      if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+        tmux attach-session -t default || tmux new-session -s default
       fi
     '';
   };

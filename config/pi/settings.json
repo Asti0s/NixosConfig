@@ -16,9 +16,6 @@
   "hideThinkingBlock": true,
   "showCacheMissNotices": true,
   "defaultProjectTrust": "always",
-  "defaultTools": [
-    "+tool_search"
-  ],
   "observational-memory": {
     "observeAfterTokens": 10000,
     "reflectAfterTokens": 15000,
@@ -38,7 +35,6 @@
   },
   "packages": [
     "npm:pi-web-access",
-    "npm:@juicesharp/rpiv-todo",
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:@nguyenquangthai/pi-omp-theme",
     "npm:pi-observational-memory",
@@ -46,7 +42,7 @@
   ],
   "extensions": [
     "-builtin:codemode",
-    "+builtin:tool-search",
+    "-builtin:tool-search",
     "-builtin:llama.cpp",
     "-builtin:mcp"
   ]
