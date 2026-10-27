@@ -8,6 +8,9 @@
     }
   },
   "outputPad": 0,
+  "markdown": {
+    "codeBlockIndent": ""
+  },
   "enableInstallTelemetry": false,
   "enableAnalytics": false,
   "defaultProvider": "openrouter",
