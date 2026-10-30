@@ -15,20 +15,32 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       nixos-wsl,
       home-manager,
       ...
     }:
     {
-      nixosConfigurations.wsl = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          nixos-wsl.nixosModules.default
-          home-manager.nixosModules.home-manager
-          ./host.nix
-        ];
+      nixosConfigurations = {
+        asti0s-tty-wsl = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            nixos-wsl.nixosModules.default
+            home-manager.nixosModules.home-manager
+            ./base.nix
+            ./hosts/wsl.nix
+            ./users/asti0s.nix
+          ];
+        };
+        asti0s-tty-laptop = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            home-manager.nixosModules.home-manager
+            ./base.nix
+            ./hosts/laptop.nix
+            ./users/asti0s.nix
+          ];
+        };
       };
     };
 }
