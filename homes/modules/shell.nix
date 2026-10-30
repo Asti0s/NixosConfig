@@ -25,7 +25,7 @@
       ];
 
     file.".p10k.zsh".source = lib.mkIf add_p10k (
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixosConfig/config/p10k.zsh"
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixosConfig/homes/dotfiles/p10k.zsh"
     );
   };
 
