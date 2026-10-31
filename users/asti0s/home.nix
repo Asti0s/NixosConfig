@@ -5,18 +5,20 @@
 
 {
   imports = [
-    (import ./modules/shell.nix {
+    (import ../shared/home-modules/shell.nix {
       add_tmux = true;
       add_eza = true;
       add_fzf = true;
       add_zoxide = true;
       add_bat = true;
-      add_p10k = true;
+      add_starship = true;
     })
-    ./modules/proton-pass-cli.nix
-    ./modules/micro.nix
-    ./modules/git.nix
-    ./modules/pi-agent.nix
+    ../shared/home-modules/proton-pass-cli.nix
+    ../shared/home-modules/micro.nix
+    ../shared/home-modules/git.nix
+    ../shared/home-modules/pi-agent.nix
+    ../shared/home-modules/sway.nix
+    ../shared/home-modules/waybar.nix
   ];
 
   home = {

@@ -10,4 +10,5 @@
     "flakes"
   ];
   programs.nix-ld.enable = true;
+  console.keyMap = "fr";
 }

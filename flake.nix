@@ -11,6 +11,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -18,6 +22,7 @@
       nixpkgs,
       nixos-wsl,
       home-manager,
+      stylix,
       ...
     }:
     {
@@ -27,18 +32,20 @@
           modules = [
             nixos-wsl.nixosModules.default
             home-manager.nixosModules.home-manager
+            stylix.nixosModules.stylix
             ./base.nix
             ./hosts/wsl.nix
-            ./users/asti0s.nix
+            ./users/asti0s-tty
           ];
         };
-        asti0s-tty-laptop = nixpkgs.lib.nixosSystem {
+        asti0s-laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             home-manager.nixosModules.home-manager
+            stylix.nixosModules.stylix
             ./base.nix
             ./hosts/laptop.nix
-            ./users/asti0s.nix
+            ./users/asti0s
           ];
         };
       };

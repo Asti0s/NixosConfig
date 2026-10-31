@@ -4,13 +4,12 @@
   add_zoxide,
   add_fzf,
   add_bat,
-  add_p10k,
+  add_starship,
   ...
 }:
 
 {
   lib,
-  config,
   pkgs,
   ...
 }:
@@ -20,13 +19,15 @@
     packages =
       with pkgs;
       lib.mkMerge [
-        (lib.mkIf add_p10k [ zsh-powerlevel10k ])
+        (lib.mkIf add_starship [ starship ])
         (lib.mkIf add_bat [ bat ])
       ];
+  };
 
-    file.".p10k.zsh".source = lib.mkIf add_p10k (
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixosConfig/homes/dotfiles/p10k.zsh"
-    );
+  programs.starship = {
+    enable = add_starship;
+    enableZshIntegration = true;
+    presets = [ "nerd-font-symbols" ];
   };
 
   programs.zoxide.enable = add_zoxide;
@@ -89,18 +90,6 @@
         bindkey '^[[1;5C' forward-word
         bindkey '^[[1;5D' backward-word
       '')
-
-      (lib.mkIf add_p10k (
-        lib.mkAfter ''
-          # ---- p10k theme + settings ----
-          if [[ "$TERM" != "linux" ]]; then
-            source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-            [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-          else
-            PROMPT='%n@%m %~ %# '
-          fi
-        ''
-      ))
 
       (lib.mkIf add_tmux (
         lib.mkAfter ''
