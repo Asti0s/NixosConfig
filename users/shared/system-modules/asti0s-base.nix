@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 
 {
   users.users.asti0s = {
@@ -16,14 +13,6 @@
     ];
   };
 
-  programs.zsh.enable = true;
-
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.asti0s = import ./home.nix;
-  };
-
   stylix = {
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
@@ -32,4 +21,7 @@
       package = pkgs.nerd-fonts.jetbrains-mono;
     };
   };
+
+  programs.zsh.enable = true;
+  programs.nix-ld.enable = true;
 }

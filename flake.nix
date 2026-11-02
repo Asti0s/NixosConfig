@@ -15,39 +15,37 @@
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvf = {
+      url = "github:NotAShelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs =
-    {
-      nixpkgs,
-      nixos-wsl,
-      home-manager,
-      stylix,
-      ...
-    }:
-    {
-      nixosConfigurations = {
-        asti0s-tty-wsl = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            nixos-wsl.nixosModules.default
-            home-manager.nixosModules.home-manager
-            stylix.nixosModules.stylix
-            ./base.nix
-            ./hosts/wsl.nix
-            ./users/asti0s-tty
-          ];
+  outputs = inputs: {
+    nixosConfigurations = {
+      asti0s-terminal-wsl = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          nvfModule = inputs.nvf.homeManagerModules.default;
         };
-        asti0s-laptop = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            home-manager.nixosModules.home-manager
-            stylix.nixosModules.stylix
-            ./base.nix
-            ./hosts/laptop.nix
-            ./users/asti0s
-          ];
+        modules = [
+          inputs.nixos-wsl.nixosModules.default
+          inputs.home-manager.nixosModules.home-manager
+          inputs.stylix.nixosModules.stylix
+          ./hosts/wsl.nix
+          ./users/asti0s-terminal
+        ];
+      };
+      asti0s-laptop = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          nvfModule = inputs.nvf.homeManagerModules.default;
         };
+        modules = [
+          inputs.home-manager.nixosModules.home-manager
+          inputs.stylix.nixosModules.stylix
+          ./hosts/laptop.nix
+          ./users/asti0s
+        ];
       };
     };
+  };
 }

@@ -5,7 +5,7 @@
 
 {
   imports = [
-    (import ../shared/home-modules/shell.nix {
+    (import ./shell.nix {
       add_tmux = true;
       add_eza = true;
       add_fzf = true;
@@ -13,10 +13,14 @@
       add_bat = true;
       add_starship = true;
     })
-    ../shared/home-modules/proton-pass-cli.nix
-    ../shared/home-modules/micro.nix
-    ../shared/home-modules/git.nix
-    ../shared/home-modules/pi-agent.nix
+    ./proton-pass-cli.nix
+    (import ./micro.nix { default_editor = false; })
+    (import ./git.nix {
+      name = "Asti0s";
+      email = "contact@astios.dev";
+    })
+    ./pi-agent.nix
+    (import ./nvim.nix { default_editor = true; })
   ];
 
   home = {
@@ -28,6 +32,7 @@
       wget
       tree
       nixfmt
+      nixd
       dnsutils
       openssl
     ];

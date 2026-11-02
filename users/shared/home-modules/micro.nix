@@ -1,9 +1,15 @@
 {
+  default_editor,
   ...
 }:
 
 {
-  home.sessionVariables = {
+  lib,
+  ...
+}:
+
+{
+  home.sessionVariables = lib.mkIf default_editor {
     EDITOR = "micro";
     VISUAL = "micro";
   };
