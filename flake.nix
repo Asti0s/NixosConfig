@@ -11,10 +11,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    stylix = {
-      url = "github:nix-community/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nvf = {
       url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -30,7 +26,6 @@
         modules = [
           inputs.nixos-wsl.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
-          inputs.stylix.nixosModules.stylix
           ./hosts/wsl.nix
           ./users/asti0s-terminal
         ];
@@ -41,7 +36,6 @@
         };
         modules = [
           inputs.home-manager.nixosModules.home-manager
-          inputs.stylix.nixosModules.stylix
           ./hosts/laptop.nix
           ./users/asti0s
         ];
