@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   users.users.asti0s = {
     isNormalUser = true;
     initialPassword = "changeme";

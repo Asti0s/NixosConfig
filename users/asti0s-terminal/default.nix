@@ -1,9 +1,4 @@
-{
-  nvfModule,
-  ...
-}:
-
-{
+{nvfModule, ...}: {
   imports = [
     ../shared/system-modules/asti0s-base.nix
   ];

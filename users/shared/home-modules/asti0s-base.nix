@@ -1,9 +1,4 @@
-{
-  pkgs,
-  ...
-}:
-
-{
+{ pkgs, ... }: {
   imports = [
     (import ./shell.nix {
       add_tmux = true;
@@ -35,6 +30,7 @@
       nixd
       dnsutils
       openssl
+      discordo
     ];
   };
 
