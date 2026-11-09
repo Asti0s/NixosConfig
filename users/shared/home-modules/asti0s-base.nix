@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   imports = [
     (import ./shell.nix {
       add_tmux = true;
@@ -9,13 +9,13 @@
       add_starship = true;
     })
     ./proton-pass-cli.nix
-    (import ./micro.nix { default_editor = false; })
+    (import ./micro.nix {default_editor = false;})
     (import ./git.nix {
       name = "Asti0s";
       email = "contact@astios.dev";
     })
     ./pi-agent.nix
-    (import ./nvim.nix { default_editor = true; })
+    (import ./nvim.nix {default_editor = true;})
   ];
 
   home = {
@@ -31,6 +31,7 @@
       dnsutils
       openssl
       discordo
+      colmena
     ];
   };
 
