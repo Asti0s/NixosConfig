@@ -8,62 +8,44 @@
     settings.vim = {
       viAlias = true;
       vimAlias = true;
-      autocomplete.blink-cmp.enable = true;
-      git.gitsigns.enable = true;
-      statusline.lualine.enable = true;
-      utility.guess-indent-nvim.enable = true;
+
       diagnostics = {
-        enable = true;
+        enable = false;
         config = {
           update_in_insert = true;
-          severity_sort = true;
           virtual_text = true;
           signs = true;
         };
       };
-      binds = {
-        whichKey.enable = true;
-      };
-      ui.borders.enable = true;
+
+      # Extensions
+      autocomplete.blink-cmp.enable = true;
+      git.gitsigns.enable = true;
+      statusline.lualine.enable = true;
+      utility.guess-indent-nvim.enable = true;
+      notes.obsidian.enable = true;
+      binds.whichKey.enable = true;
+      telescope.enable = true;
+      filetree.nvimTree.enable = true;
+
+      # LSP & Languages
       lsp = {
         enable = true;
         formatOnSave = true;
         inlayHints.enable = true;
-        servers.nixd.settings.nixd = {
-          formatting.command = ["alejandra"];
-          nixpkgs.expr = "import (builtins.getFlake (toString ./.)).inputs.nixpkgs { }";
-          options = {
-            nixos.expr = ''
-              (let
-                res = builtins.tryEval
-                  (builtins.getFlake (toString ./.)).nixosConfigurations.asti0s-laptop.options;
-              in
-                if res.success then res.value
-                else (import <nixpkgs/nixos> { }).options)
-            '';
-            home_manager.expr = ''
-              (let
-                res = builtins.tryEval
-                  (builtins.getFlake (toString ./.)).nixosConfigurations.asti0s-laptop
-                  .options.home-manager.users.type.getSubOptions [ ];
-              in
-                if res.success then res.value
-                else { })
-            '';
-          };
-        };
+        lightbulb.enable = true;
       };
       languages = {
         enableTreesitter = true;
         enableFormat = true;
         enableExtraDiagnostics = true;
-        nix = {
-          enable = true;
-          lsp.servers = ["nixd"];
-        };
+        nix.enable = true;
         bash.enable = true;
         lua.enable = true;
+        markdown.enable = true;
       };
+
+      # Keybinds
       keymaps = [
         {
           mode = "i";

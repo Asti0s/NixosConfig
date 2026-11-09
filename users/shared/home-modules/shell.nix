@@ -67,7 +67,8 @@
 
     shellAliases = lib.mkIf add_bat {
       cat = "bat --paging=never";
-    };
+      c = "clear"; 
+ };
 
     # history options: https://github.com/nix-community/home-manager/blob/master/modules/programs/zsh/history.nix
     history = {
