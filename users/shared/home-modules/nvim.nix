@@ -23,7 +23,6 @@
       git.gitsigns.enable = true;
       statusline.lualine.enable = true;
       utility.guess-indent-nvim.enable = true;
-      notes.obsidian.enable = true;
       binds.whichKey.enable = true;
       telescope.enable = true;
       filetree.nvimTree.enable = true;

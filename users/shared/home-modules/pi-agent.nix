@@ -9,7 +9,7 @@
       # Display & Style
       markdown.codeBlockIndent = "";
       terminal.showTerminalProgress = true;
-      outputPad = true;
+      outputPad = 0;
       showCacheMissNotices = true;
       steeringMode = "all";
 
