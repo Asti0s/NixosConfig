@@ -18,6 +18,19 @@
         };
       };
 
+      # Treesitter
+      treesitter = {
+        enable = true;
+        highlight.enable = true;
+      };
+
+      # Theme
+      theme = {
+        enable = true;
+        name = "catppuccin";
+        style = "mocha";
+      };
+
       # Extensions
       autocomplete.blink-cmp.enable = true;
       git.gitsigns.enable = true;
@@ -42,6 +55,9 @@
         bash.enable = true;
         lua.enable = true;
         markdown.enable = true;
+        json.enable = true;
+        rust.enable = true;
+        toml.enable = true;
       };
 
       # Keybinds

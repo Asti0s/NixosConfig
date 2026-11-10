@@ -18,10 +18,21 @@
       defaultModel = "z-ai/glm-5.3-flash";
       defaultThinkingLevel = "medium";
 
+      # Memory
+      observational-memory = {
+        compactAfterTokens = 100000;
+        compactAfterTokensMode = "calibrated";
+        model = {
+          id = "openai/gpt-oss-20b";
+          thinking = "off";
+        };
+      };
+
       # Harness customization
       defaultProjectTrust = "always";
       packages = [
         "npm:pi-web-access"
+        "npm:pi-observational-memory"
       ];
       extensions = [
         "-builtin:codemode"
