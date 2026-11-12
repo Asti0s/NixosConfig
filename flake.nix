@@ -3,9 +3,16 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
+    flake-compat = {
+      url = "github:NixOS/flake-compat";
+      flake = false;
+    };
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL/main";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
+      };
     };
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -13,7 +20,10 @@
     };
     nvf = {
       url = "github:NotAShelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
+      };
     };
     colmena = {
       url = "github:nix-community/colmena";
@@ -53,12 +63,20 @@
       };
 
       homelab = {
+        # Machine specific
         networking.hostName = "homelab";
-        system.stateVersion = "26.05";
         imports = [
           "${inputs.nixpkgs}/nixos/modules/virtualisation/incus-virtual-machine.nix"
         ];
+        deployment = {
+          targetHost = "10.235.145.3";
+          targetUser = "root";
+        };
 
+        # Hive global
+        system.stateVersion = "26.05";
+
+        # SSH config
         services.openssh = {
           enable = true;
           settings = {
@@ -66,17 +84,16 @@
             PasswordAuthentication = false;
           };
         };
-
         users.users.root.openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5knAwQ3/B54DnoT2xlWhyRhUKAwPkg0W924Hcfsg82"
         ];
 
+        # Networking
         networking = {
           dhcpcd.enable = false;
           useDHCP = false;
           useHostResolvConf = false;
         };
-
         systemd.network = {
           enable = true;
           networks."50-enp5s0" = {
@@ -87,11 +104,6 @@
             };
             linkConfig.RequiredForOnline = "routable";
           };
-        };
-
-        deployment = {
-          targetHost = "10.235.145.3";
-          targetUser = "root";
         };
       };
     };
