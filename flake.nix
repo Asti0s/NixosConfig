@@ -29,12 +29,16 @@
       url = "github:nix-community/colmena";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs: {
     nixosConfigurations = {
       asti0s-terminal-wsl = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {
-          nvfModule = inputs.nvf.homeManagerModules.default;
+          inherit inputs;
         };
         modules = [
           inputs.nixos-wsl.nixosModules.default
@@ -45,7 +49,7 @@
       };
       asti0s-laptop = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {
-          nvfModule = inputs.nvf.homeManagerModules.default;
+          inherit inputs;
         };
         modules = [
           inputs.home-manager.nixosModules.home-manager
@@ -62,19 +66,36 @@
         };
       };
 
-      homelab = {
-        # Machine specific
+      homelab = {config, ...}: {
+        system.stateVersion = "26.05";
         networking.hostName = "homelab";
         imports = [
           "${inputs.nixpkgs}/nixos/modules/virtualisation/incus-virtual-machine.nix"
+          inputs.sops-nix.nixosModules.sops
         ];
+
+        sops = {
+          defaultSopsFile = ./secrets/servers.json;
+          defaultSopsFormat = "json";
+          secrets = {
+            "cloudflared-credentials" = {};
+          };
+        };
+
         deployment = {
           targetHost = "10.235.145.3";
           targetUser = "root";
         };
 
-        # Hive global
-        system.stateVersion = "26.05";
+        # Cloudflare tunnel
+        services.cloudflared = {
+          enable = true;
+
+          tunnels."1b14b0e6-4d70-471a-a49f-b588a9e3261f" = {
+            credentialsFile = config.sops.secrets.cloudflared-credentials.path;
+            default = "http_status:404";
+          };
+        };
 
         # SSH config
         services.openssh = {

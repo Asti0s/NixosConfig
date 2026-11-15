@@ -16,6 +16,7 @@
     })
     ./pi-agent.nix
     (import ./nvim.nix {default_editor = true;})
+    ./secrets.nix
   ];
 
   home = {
@@ -32,6 +33,11 @@
       openssl
       discordo
       colmena
+      sops
+      age
+      ssh-to-age
+      jq
+      lazygit
     ];
   };
 
