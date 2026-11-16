@@ -63,6 +63,8 @@
       shellAliases = lib.mkIf add_bat {
         cat = "bat --paging=never";
         c = "clear";
+        v = "nvim";
+        lg = "lazygit";
       };
 
       # history options: https://github.com/nix-community/home-manager/blob/master/modules/programs/zsh/history.nix

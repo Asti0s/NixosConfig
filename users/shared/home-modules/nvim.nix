@@ -8,6 +8,10 @@
       vimAlias = true;
       vendoredKeymaps.enable = false;
 
+      luaConfigPre = ''
+        vim.o.exrc = true;
+      '';
+
       # ---------------------------------------
       # Languages diagnostics, display & utils
       # ---------------------------------------
@@ -48,6 +52,7 @@
           renameSymbol = "<leader>rn";
           codeAction = "<leader>ca";
         };
+        servers.nixd.settings.nixd.formatting.command = ["alejandra"];
       };
 
       languages = {
@@ -55,7 +60,10 @@
         enableFormat = true;
         enableExtraDiagnostics = true;
 
-        nix.enable = true;
+        nix = {
+          enable = true;
+          lsp.servers = ["nixd"];
+        };
         bash.enable = true;
         lua.enable = true;
         markdown.enable = true;
