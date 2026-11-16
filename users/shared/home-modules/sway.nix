@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   wayland.windowManager.sway = {
     enable = true;
     checkConfig = false;
@@ -39,10 +37,10 @@
       };
 
       startup = [
-        { command = "mako"; }
+        {command = "mako";}
       ];
 
-      bars = [ ];
+      bars = [];
     };
 
     extraConfig = ''

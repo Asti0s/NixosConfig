@@ -2,9 +2,7 @@
   name,
   email,
   ...
-}:
-
-{
+}: {
   programs.git = {
     enable = true;
     settings.user = {

@@ -38,6 +38,7 @@
       ssh-to-age
       jq
       lazygit
+      alejandra
     ];
   };
 
