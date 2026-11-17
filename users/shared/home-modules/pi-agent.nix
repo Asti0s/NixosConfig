@@ -20,6 +20,13 @@
                 };
               };
             };
+            "tencent/hy4-flash" = {
+              compat = {
+                openRouterRouting = {
+                  only = ["tencent/fp8"];
+                };
+              };
+            };
           };
         };
       };
@@ -38,7 +45,7 @@
 
       # Models
       defaultProvider = "openrouter";
-      defaultModel = "z-ai/glm-5.3-flash";
+      defaultModel = "tencent/hy4-flash";
       defaultThinkingLevel = "medium";
 
       # Memory & context
@@ -47,7 +54,7 @@
         compactAfterTokens = 100000;
         compactAfterTokensMode = "calibrated";
         model = {
-          id = "openai/gpt-oss-20b";
+          id = "tencent/hy4-flash";
           thinking = "off";
         };
       };
