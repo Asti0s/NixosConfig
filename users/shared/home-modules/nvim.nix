@@ -107,23 +107,23 @@
       # git-conflict.enable = true;
       telescope = {
         enable = true;
-        mappings.lspReferences = "gr";
+        mappings = {
+          lspReferences = "gr";
+          findFiles = "<leader>ff";
+          liveGrep = "<leader>fg";
+        };
       };
 
       utility.motion.flash-nvim = {
         enable = true;
-        mappings.jump = "zk";
+        mappings.jump = "s";
       };
 
       comments.comment-nvim = {
         enable = true;
         mappings = {
-          /*
-          toggleCurrentBlock = "gbc";
-          */
-          /*
           toggleCurrentLine = "gcc";
-          */
+          toggleOpLeaderLine = "gc";
         };
       };
 
@@ -133,11 +133,11 @@
       ui.colorizer.enable = true;
       visuals.fidget-nvim.enable = true;
       git.gitsigns.enable = true;
+      utility.guess-indent-nvim.enable = true;
 
       # notify.nvim-notify.enable = true;
       # tabline.nvimBufferline.enable = true;
       # notes.todo-comments.enable = true;
-      # utility.guess-indent-nvim.enable = true;
       # filetree.nvimTree.enable = true;
 
       theme = {
