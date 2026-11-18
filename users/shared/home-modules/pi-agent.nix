@@ -1,4 +1,4 @@
-{
+{config, ...}: {
   programs.pi-coding-agent = {
     enable = true;
     models = {
@@ -84,5 +84,23 @@
     '';
   };
 
-  home.sessionVariables.PI_CLIPBOARD_OSC52 = "1";
+  home = {
+    sessionVariables.PI_CLIPBOARD_OSC52 = "1";
+    file."${config.programs.pi-coding-agent.configDir}/web-search.json".text = ''
+      {
+        "tinyfishApiKey": "$TINYFISH_API_KEY",
+        "exaApiKey": "$EXA_API_KEY",
+        "workflow": "none",
+        "searchRouting": {
+          "providers": ["tinyfish", "exa"],
+          "fallbackOn": ["transient", "quota", "network", "invalid-response"]
+        },
+        "fetchRouting": {
+          "providers": ["tinyfish", "exa"],
+          "allowRemoteHostedProviders": true,
+          "fallbackOn": ["transient", "quota", "network", "invalid-response"]
+        }
+      }
+    '';
+  };
 }
