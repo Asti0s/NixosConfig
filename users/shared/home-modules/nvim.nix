@@ -114,9 +114,13 @@
         };
       };
 
-      utility.motion.flash-nvim = {
-        enable = true;
-        mappings.jump = "s";
+      utility = {
+        motion.flash-nvim = {
+          enable = true;
+          mappings.jump = "s";
+        };
+        guess-indent-nvim.enable = true;
+        undotree.enable = true;
       };
 
       comments.comment-nvim = {
@@ -127,18 +131,29 @@
         };
       };
 
+      filetree.nvimTree = {
+        enable = true;
+        mappings = {
+          toggle = "<C-f>";
+        };
+      };
+
+      tabline.nvimBufferline = {
+        enable = true;
+        mappings = {
+          cycleNext = "<C-n>";
+          cyclePrevious = "<C-p>";
+          closeCurrent = "<C-w>";
+        };
+      };
+
       binds.whichKey.enable = true;
       statusline.lualine.enable = true;
       autopairs.nvim-autopairs.enable = true;
       ui.colorizer.enable = true;
       visuals.fidget-nvim.enable = true;
       git.gitsigns.enable = true;
-      utility.guess-indent-nvim.enable = true;
-
-      # notify.nvim-notify.enable = true;
-      # tabline.nvimBufferline.enable = true;
-      # notes.todo-comments.enable = true;
-      # filetree.nvimTree.enable = true;
+      notify.nvim-notify.enable = true;
 
       theme = {
         enable = true;
@@ -170,6 +185,42 @@
           key = "<C-l>";
           action = "<Right>";
           desc = "Move right in insert mode";
+        }
+        {
+          mode = "n";
+          key = "<C-h>";
+          action = "<C-w>h";
+          desc = "Window left";
+        }
+        {
+          mode = "n";
+          key = "<C-j>";
+          action = "<C-w>j";
+          desc = "Window down";
+        }
+        {
+          mode = "n";
+          key = "<C-k>";
+          action = "<C-w>k";
+          desc = "Window up";
+        }
+        {
+          mode = "n";
+          key = "<C-l>";
+          action = "<C-w>l";
+          desc = "Window right";
+        }
+        {
+          mode = "n";
+          key = "<leader>sv";
+          action = "<cmd>vsplit<cr>";
+          desc = "Vertical split";
+        }
+        {
+          mode = "n";
+          key = "<leader>sh";
+          action = "<cmd>split<cr>";
+          desc = "Horizontal split";
         }
       ];
     };
