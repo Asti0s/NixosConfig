@@ -6,7 +6,6 @@
   home-manager = {
     sharedModules = [
       inputs.nvf.homeModules.default
-      inputs.sops-nix.homeManagerModules.sops
     ];
     useGlobalPkgs = true;
     useUserPackages = true;

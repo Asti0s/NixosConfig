@@ -14,9 +14,7 @@
       name = "Asti0s";
       email = "contact@astios.dev";
     })
-    ./pi-agent.nix
     (import ./nvim.nix {default_editor = true;})
-    ./secrets.nix
   ];
 
   home = {
