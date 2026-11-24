@@ -6,8 +6,8 @@
   programs.git = {
     enable = true;
     settings.user = {
-      name = name;
-      email = email;
+      inherit name;
+      inherit email;
     };
   };
 }

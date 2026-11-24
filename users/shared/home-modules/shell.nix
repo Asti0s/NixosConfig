@@ -13,8 +13,7 @@
 }: {
   home = {
     packages = with pkgs;
-      []
-      ++ lib.optionals add_starship [starship]
+      lib.optionals add_starship [starship]
       ++ lib.optionals add_bat [bat];
   };
 

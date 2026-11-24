@@ -15,6 +15,7 @@
       email = "contact@astios.dev";
     })
     (import ./nvim.nix {default_editor = true;})
+    ./btop.nix
   ];
 
   home = {
@@ -37,6 +38,9 @@
       jq
       lazygit
       alejandra
+      statix
+      deadnix
+      python3
     ];
   };
 
