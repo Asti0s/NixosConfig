@@ -1,5 +1,4 @@
-{openrouterKeyFile}:
-{pkgs, ...}: {
+{openrouterKeyFile}: {pkgs, ...}: {
   piAgent.files.models = pkgs.writeText "models.json" (builtins.toJSON {
     "$schema" = "https://pi.dev/schemas/models.schema.json";
     providers.openrouter = {

@@ -1,4 +1,4 @@
-{lib, pkgs, ...}: {
+{lib, ...}: {
   nixpkgs.overlays = [
     (final: _: {
       pi-bolt = final.stdenvNoCC.mkDerivation {
@@ -6,8 +6,8 @@
         version = "1.2.1";
 
         src = final.fetchurl {
-          url = "https://github.com/opensec-git/Pi-Bolt/releases/download/bolt-v1.2.1/pi-bolt-linux-x64-baseline.tar.xz";
-          hash = "sha256-sloVrhZPFp1gMWN5thl9REv39StGwFbtS9nhLQzdx5o=";
+          url = "https://github.com/opensec-git/Pi-Bolt/releases/download/bolt-v1.3.0/pi-bolt-linux-x64.tar.xz";
+          hash = "sha256:6d15e573d7eeebfecf10c1e1bab288deb0ffd773d9315b682c0c32fedb3aea58";
         };
 
         nativeBuildInputs = [final.autoPatchelfHook];

@@ -1,5 +1,7 @@
-{tinyfishKeyFile, exaKeyFile}:
-{pkgs, ...}: {
+{
+  tinyfishKeyFile,
+  exaKeyFile,
+}: {pkgs, ...}: {
   piAgent.files.webSearch = pkgs.writeText "web-search.json" (builtins.toJSON {
     tinyfishApiKey = "!${pkgs.coreutils}/bin/cat ${tinyfishKeyFile}";
     exaApiKey = "!${pkgs.coreutils}/bin/cat ${exaKeyFile}";
