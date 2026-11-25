@@ -2,8 +2,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     import-tree.url = "github:denful/import-tree";
-    flake-parts.url = "github:hercules-ci/flake-parts";
-    flake-aspects.url = "github:denful/flake-aspects";
+    den.url = "github:denful/den";
     nix-wrapper-modules = {
       url = "github:nix-community/nix-wrapper-modules";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,14 +17,8 @@
     };
   };
   outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
-      imports = [
-        inputs.flake-aspects.flakeModule
-        inputs.flake-parts.flakeModules.modules
-        inputs.nix-wrapper-modules.flakeModules.wrappers
-        (inputs.import-tree ./modules)
-      ];
-
-      systems = ["x86_64-linux"];
-    };
+    (inputs.nixpkgs.lib.evalModules {
+      modules = [(inputs.import-tree ./modules)];
+      specialArgs.inputs = inputs;
+    }).config.flake;
 }
