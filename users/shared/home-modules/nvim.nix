@@ -64,9 +64,21 @@
           enable = true;
           lsp.servers = ["nixd"];
         };
+        markdown = {
+          enable = true;
+          format.type = ["rumdl"];
+          lsp.servers = ["rumdl"];
+          extensions.markview-nvim = {
+            enable = true;
+            setupOpts = {
+              preview = {
+                icon_provider = "nvim-web-devicons";
+              };
+            };
+          };
+        };
         bash.enable = true;
         lua.enable = true;
-        markdown.enable = true;
         json.enable = true;
         rust.enable = true;
         toml.enable = true;
@@ -147,18 +159,22 @@
         };
       };
 
+      visuals = {
+        fidget-nvim.enable = true;
+        nvim-web-devicons.enable = true;
+      };
+
       binds.whichKey.enable = true;
       statusline.lualine.enable = true;
       autopairs.nvim-autopairs.enable = true;
       ui.colorizer.enable = true;
-      visuals.fidget-nvim.enable = true;
       git.gitsigns.enable = true;
       notify.nvim-notify.enable = true;
 
       theme = {
         enable = true;
-        name = "gruvbox";
-        style = "dark";
+        name = "catppuccin";
+        style = "mocha";
       };
 
       keymaps = [
