@@ -1,16 +1,22 @@
-{inputs, ...}: {
+{
+  inputs,
+  den,
+  lib,
+  ...
+}: {
   imports = [inputs.den.flakeModule];
 
   den = {
     default.nixos.system.stateVersion = "26.11";
-    hosts.x86_64-linux.vm.users.asti0s = {};
-    aspects.vm = {};
-    aspects.asti0s = {
-      user = {
-        extraGroups = ["wheel" "networkmanager"];
-        initialPassword = "changeme";
-        isNormalUser = true;
-      };
-    };
+    reservedKeys = ["settings"];
+    schema.host.imports = [
+      {
+        options.settings = lib.mkOption {
+          type = import ./_settings-type.nix {inherit den lib;};
+          default = {};
+          description = "Per-aspect typed settings";
+        };
+      }
+    ];
   };
 }
