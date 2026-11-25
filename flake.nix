@@ -42,27 +42,7 @@
       };
     };
   };
-  outputs = inputs: let
-    dendriticPiAgent =
-      (inputs.dendritic.aspects.mkPiAgent {
-        tinyfishKeyFile = "/run/secrets/TINYFISH_API_KEY";
-        exaKeyFile = "/run/secrets/EXA_API_KEY";
-        openrouterKeyFile = "/run/secrets/OPENROUTER_API_KEY";
-      }).nixos;
-    dendriticSecrets =
-      (inputs.dendritic.aspects.mkSecrets {
-        defaultSopsFile = ./secrets/users.json;
-        secrets = {
-          PROTON_PASS_PERSONAL_ACCESS_TOKEN.owner = "asti0s";
-          OPENROUTER_API_KEY.owner = "asti0s";
-          TINYFISH_API_KEY.owner = "asti0s";
-          EXA_API_KEY.owner = "asti0s";
-        };
-      }).nixos;
-    sopsAgeKeyFile = {
-      sops.age.keyFile = "/home/asti0s/.sops/key";
-    };
-  in {
+  outputs = inputs: {
     nixosConfigurations = {
       asti0s-terminal-wsl = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {
@@ -71,9 +51,6 @@
         modules = [
           inputs.nixos-wsl.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
-          dendriticSecrets
-          sopsAgeKeyFile
-          dendriticPiAgent
           ./hosts/wsl.nix
           ./users/asti0s-terminal
         ];
@@ -84,9 +61,6 @@
         };
         modules = [
           inputs.home-manager.nixosModules.home-manager
-          dendriticSecrets
-          sopsAgeKeyFile
-          dendriticPiAgent
           ./hosts/laptop.nix
           ./users/asti0s
         ];

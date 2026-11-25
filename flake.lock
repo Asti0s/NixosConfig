@@ -40,11 +40,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795516170,
-        "narHash": "sha256-HXhZJgFmJ2Spx4tX87QEkxprxp3qJPWg9QRw1gga+dE=",
+        "lastModified": 1795618242,
+        "narHash": "sha256-MjLhtpWxzrst1ene/73K6F8m4P1qgwi2/d/SFW3OzC0=",
         "owner": "Asti0s",
         "repo": "NixosConfig",
-        "rev": "444252ea43a0c40272e9892dbe549f33582145f9",
+        "rev": "5b8ba93c9068445ae0b53123efdf2fd43f9440ad",
         "type": "github"
       },
       "original": {
