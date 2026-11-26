@@ -5,7 +5,7 @@
         (final: _: {
           pi-bolt = final.stdenvNoCC.mkDerivation {
             pname = "pi-bolt";
-            version = "1.2.1";
+            version = "1.3.0";
 
             src = final.fetchurl {
               url = "https://github.com/opensec-git/Pi-Bolt/releases/download/bolt-v1.3.0/pi-bolt-linux-x64.tar.xz";
