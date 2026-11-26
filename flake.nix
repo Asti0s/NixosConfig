@@ -20,16 +20,23 @@
       url = "github:nix-community/colmena";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         inputs.flake-aspects.flakeModule
         inputs.flake-parts.flakeModules.modules
-        inputs.nix-wrapper-modules.flakeModules.wrappers
         (inputs.import-tree ./modules)
       ];
-
-      systems = ["x86_64-linux"];
+      systems = [
+        "x86_64-linux"
+        "x86_64-darwin"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
     };
 }
