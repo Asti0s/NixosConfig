@@ -32,8 +32,9 @@
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
-        inputs.flake-aspects.flakeModule
         inputs.flake-parts.flakeModules.modules
+        inputs.flake-aspects.flakeModule
+        inputs.nix-wrapper-modules.flakeModules.wrappers
         (inputs.import-tree ./modules)
       ];
       systems = [

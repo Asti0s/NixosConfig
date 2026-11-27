@@ -9,6 +9,7 @@ in {
     asti0s = {
       includes = with aspects; [
         pi-agent
+        shell
       ];
 
       nixos = {config, ...}: {
