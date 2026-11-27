@@ -1,7 +1,9 @@
 {
   flake.aspects = {aspects, ...}: {
     pi-agent = {
-      includes = [aspects.pi-bolt-overlay];
+      includes = with aspects; [
+        pi-bolt-overlay
+      ];
 
       nixos = {
         lib,

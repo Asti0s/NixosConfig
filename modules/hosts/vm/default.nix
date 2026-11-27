@@ -5,8 +5,10 @@
 }: {
   flake.aspects = {aspects, ...}: {
     vm = {
-      includes = [
-        aspects.asti0s
+      includes = with aspects; [
+        nix-store-optimization
+        swap
+        asti0s
       ];
 
       nixos = {

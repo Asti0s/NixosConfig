@@ -7,8 +7,8 @@
 in {
   flake.aspects = {aspects, ...}: {
     asti0s = {
-      includes = [
-        aspects.pi-agent
+      includes = with aspects; [
+        pi-agent
       ];
 
       nixos = {config, ...}: {
