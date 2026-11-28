@@ -29,11 +29,11 @@
 
         pi-bolt = pkgs.stdenvNoCC.mkDerivation {
           pname = "pi-bolt";
-          version = "1.3.0";
+          version = "1.4.0";
 
           src = pkgs.fetchurl {
-            url = "https://github.com/opensec-git/Pi-Bolt/releases/download/bolt-v1.3.0/pi-bolt-linux-x64.tar.xz";
-            hash = "sha256:6d15e573d7eeebfecf10c1e1bab288deb0ffd773d9315b682c0c32fedb3aea58";
+            url = "https://github.com/opensec-git/Pi-Bolt/releases/download/bolt-v1.4.0/pi-bolt-linux-x64.tar.xz";
+            hash = "sha256:7075668bb1fdeedc342f3b7a55298cfada6edadfbfa098940eb706c921bead27";
           };
 
           nativeBuildInputs = [pkgs.autoPatchelfHook];
@@ -64,29 +64,25 @@
         configFiles = {
           settingsJson = pkgs.writeText "settings.json" (builtins.toJSON {
             "$schema" = "https://pi.dev/schemas/settings.schema.json";
-            enableInstallTelemetry = false;
             enableAnalytics = false;
             markdown.codeBlockIndent = "";
             terminal.showTerminalProgress = true;
             outputPad = 0;
-            showCacheMissNotices = true;
+            notices = {
+              cacheMisses = true;
+              cacheWarming = true;
+              compactionCosts = true;
+              reasoningDrops = true;
+            };
             steeringMode = "all";
             defaultProvider = "openrouter";
-            defaultModel = "meta/muse-ember";
+            defaultModel = "deepseek/deepseek-v4.1-flash-1017";
             defaultThinkingLevel = "medium";
             compaction.enabled = false;
-            "observational-memory" = {
-              compactAfterTokens = 100000;
-              compactAfterTokensMode = "calibrated";
-              model = {
-                id = "tencent/hy4-flash";
-                thinking = "off";
-              };
-            };
             defaultProjectTrust = "always";
+            cacheWarming = "idle";
             packages = [
               "npm:pi-web-access"
-              "npm:pi-observational-memory"
             ];
             extensions = [
               "-builtin:codemode"
@@ -96,24 +92,10 @@
             ];
           });
 
-          modelsJson = pkgs.writeText "models.json" (builtins.toJSON {
-            "$schema" = "https://pi.dev/schemas/models.schema.json";
-            providers.openrouter = {
-              apiKey = "!${pkgs.coreutils}/bin/cat ${cfg.openrouterApiKeyFile}";
-              modelOverrides = {
-                "meta/muse-ember" = {
-                  compat.openRouterRouting.only = ["google-vertex/global"];
-                };
-                "openai/gpt-oss-20b" = {
-                  compat.openRouterRouting.only = ["coreweave/fp4"];
-                };
-                "tencent/hy4-flash" = {
-                  compat.openRouterRouting.only = ["tencent/fp8"];
-                };
-                "z-ai/glm-5.3-flash" = {
-                  compat.openRouterRouting.only = ["z-ai/fp8"];
-                };
-              };
+          authJson = pkgs.writeText "auth.json" (builtins.toJSON {
+            openrouter = {
+              type = "api_key";
+              key = "!${pkgs.coreutils}/bin/cat ${cfg.openrouterApiKeyFile}";
             };
           });
 
@@ -161,10 +143,9 @@
           agentDir="$HOME/.pi/agent"
           mkdir -p "$agentDir"
           ln -sf ${configFiles.settingsJson} "$agentDir/settings.json"
-          ln -sf ${configFiles.modelsJson} "$agentDir/models.json"
+          ln -sf ${configFiles.authJson} "$agentDir/auth.json"
           ln -sf ${configFiles.websearchJson} "$agentDir/web-search.json"
           ln -sf ${configFiles.appendSystemMd} "$agentDir/APPEND_SYSTEM.md"
-          export PI_SKIP_VERSION_CHECK=1
           export PIBOLT_NO_AUTO_UPDATE=1
           exec ${pi-bolt}/bin/pi "$@"
         '';
