@@ -2,24 +2,39 @@
   inputs,
   config,
   ...
-}: {
+}: let
+  homelabIp = "192.168.1.28";
+  tailnetIp = "100.72.163.111";
+  flakeConfig = config;
+in {
   flake = {
     aspects = {aspects, ...}: {
       homelab = {
         includes = with aspects; [
           nix-store-optimization
           swap
+          fast-note-sync-service
         ];
 
-        nixos = {pkgs, ...}: {
+        nixos = {
+          pkgs,
+          config,
+          ...
+        }: {
           imports = [
             inputs.disko.nixosModules.disko
             inputs.lanzaboote.nixosModules.lanzaboote
+            inputs.sops-nix.nixosModules.sops
             ./_hardware-configuration.nix
           ];
 
           system.stateVersion = "26.05";
           nixpkgs.hostPlatform = "x86_64-linux";
+
+          fast-note-sync-service.ports = [
+            "${homelabIp}:9000"
+            "${tailnetIp}:9000"
+          ];
 
           environment.systemPackages = with pkgs; [
             cryptsetup
@@ -27,6 +42,13 @@
             dnsutils
             curl
           ];
+
+          sops = {
+            age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+            defaultSopsFormat = "json";
+            defaultSopsFile = ./secrets/secrets.json;
+            secrets.TAILSCALE_AUTH_KEY = {};
+          };
 
           services = {
             fwupd.enable = true;
@@ -42,6 +64,12 @@
                 ignore_system_dns = true;
               };
             };
+            tailscale = {
+              enable = true;
+              useRoutingFeatures = "server";
+              authKeyFile = config.sops.secrets.TAILSCALE_AUTH_KEY.path;
+              extraUpFlags = ["--hostname=homelab" "--advertise-routes=${homelabIp}/32"];
+            };
           };
 
           networking = {
@@ -51,7 +79,7 @@
             nameservers = ["127.0.0.1"];
             interfaces.enp2s0.ipv4.addresses = [
               {
-                address = "192.168.1.28";
+                address = "${homelabIp}";
                 prefixLength = 24;
               }
             ];
@@ -131,34 +159,34 @@
           };
         };
       };
+    };
 
-      colmenaHive = inputs.colmena.lib.makeHive {
-        meta = {
-          name = "homelab";
-          description = "Homelab server";
-          nixpkgs = import inputs.nixpkgs {
-            system = "x86_64-linux";
-            overlays = [];
-          };
-        };
-
-        homelab = {
-          deployment = {
-            targetHost = "192.168.1.28";
-            targetUser = "root";
-          };
-
-          imports = [
-            config.flake.modules.nixos.homelab
-          ];
+    colmenaHive = inputs.colmena.lib.makeHive {
+      meta = {
+        name = "homelab";
+        description = "Homelab server";
+        nixpkgs = import inputs.nixpkgs {
+          system = "x86_64-linux";
+          overlays = [];
         };
       };
 
-      nixosConfigurations.homelab = inputs.nixpkgs.lib.nixosSystem {
-        modules = [
-          config.flake.modules.nixos.homelab
+      homelab = {
+        deployment = {
+          targetHost = "${homelabIp}";
+          targetUser = "root";
+        };
+
+        imports = [
+          flakeConfig.flake.modules.nixos.homelab
         ];
       };
+    };
+
+    nixosConfigurations.homelab = inputs.nixpkgs.lib.nixosSystem {
+      modules = [
+        flakeConfig.flake.modules.nixos.homelab
+      ];
     };
   };
 }
