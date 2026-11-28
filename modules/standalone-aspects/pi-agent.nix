@@ -92,12 +92,14 @@
             ];
           });
 
-          authJson = pkgs.writeText "auth.json" (builtins.toJSON {
-            openrouter = {
-              type = "api_key";
-              key = "!${pkgs.coreutils}/bin/cat ${cfg.openrouterApiKeyFile}";
-            };
-          });
+          modelsJson = pkgs.writeText "models.json" (
+            builtins.toJSON {
+              "$schema" = "https://pi.dev/schemas/models.schema.json";
+              providers.openrouter = {
+                apiKey = "!${pkgs.coreutils}/bin/cat ${cfg.openrouterApiKeyFile}";
+              };
+            }
+          );
 
           websearchJson = pkgs.writeText "web-search.json" (builtins.toJSON {
             tinyfishApiKey = "!${pkgs.coreutils}/bin/cat ${cfg.tinyfishApiKeyFile}";
@@ -143,7 +145,7 @@
           agentDir="$HOME/.pi/agent"
           mkdir -p "$agentDir"
           ln -sf ${configFiles.settingsJson} "$agentDir/settings.json"
-          ln -sf ${configFiles.authJson} "$agentDir/auth.json"
+          ln -sf ${configFiles.modelsJson} "$agentDir/models.json"
           ln -sf ${configFiles.websearchJson} "$agentDir/web-search.json"
           ln -sf ${configFiles.appendSystemMd} "$agentDir/APPEND_SYSTEM.md"
           export PIBOLT_NO_AUTO_UPDATE=1
